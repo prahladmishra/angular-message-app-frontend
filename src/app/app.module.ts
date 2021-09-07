@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthService } from './auth.service';
 import { HomeComponent } from './home.component';
 import { MessagesComponent } from './messages.component';
 import { NavComponent } from './nav-component';
@@ -61,7 +62,7 @@ let routes: any = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [ WebService ],
+  providers: [ WebService, AuthService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
