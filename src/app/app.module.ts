@@ -14,11 +14,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service';
 import { HomeComponent } from './home.component';
+import { LoginComponent } from './login.component';
 import { MessagesComponent } from './messages.component';
 import { NavComponent } from './nav-component';
 import { NewMessagesComponent } from './new-message.component';
 import { RegisterComponent } from './register.component';
 import { WebService } from './web.service';
+
 
 let routes: any = [
   {
@@ -37,6 +39,10 @@ let routes: any = [
     path: "register",
     component: RegisterComponent,
   },
+  {
+    path: "login",
+    component: LoginComponent,
+  }
 ];
 @NgModule({
   declarations: [
@@ -45,7 +51,8 @@ let routes: any = [
     NewMessagesComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

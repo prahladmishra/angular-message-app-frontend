@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { LoginData } from "./login.component";
 
 @Injectable()
 
@@ -25,14 +26,7 @@ export class AuthService {
     register(user: any) {
         delete user.confirmPassword;
         this.http.post(this.BASE_URL + '/register', user, { responseType: 'json' }).subscribe(res => {
-            let response : user = JSON.parse(JSON.stringify(res));
-            let authResponse = response;
-            if (!authResponse.token)
-                return;
-
-            localStorage.setItem(this.TOKEN_KEY, authResponse.token);
-            localStorage.setItem(this.NAME_KEY, authResponse.firstName);
-            this.router.navigate(['/']);
+            this.authenticate(res);
          });
     }
 
@@ -42,9 +36,27 @@ export class AuthService {
         this.router.navigate(['/']);
 
     }
+
+    login(loginData: LoginData) {
+        this.http.post(this.BASE_URL + '/login', loginData, { responseType: 'json' }).subscribe(res => {
+            this.authenticate(res);
+        });
+    }
+
+    authenticate(res : any) {
+        let response : User = JSON.parse(JSON.stringify(res));
+            let authResponse = response;
+            if (!authResponse.token){
+                return;
+            }
+
+            localStorage.setItem(this.TOKEN_KEY, authResponse.token);
+            localStorage.setItem(this.NAME_KEY, authResponse.firstName);
+            this.router.navigate(['/']);
+    }
 }
  
-export interface user {
+export interface User {
     token: string;
     firstName: string;
 }
