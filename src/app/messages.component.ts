@@ -20,5 +20,6 @@ export class MessagesComponent {
   ngOnInit() {
     let name = this.route.snapshot.params.name;
     this.webService.getMessages(name);
+    this.webService.getUser().subscribe();
   }
 }

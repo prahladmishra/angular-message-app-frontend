@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoginData } from "./login.component";
@@ -21,6 +21,12 @@ export class AuthService {
 
     get isAuthenticated() {
         return !!localStorage.getItem(this.TOKEN_KEY);
+    }
+
+    get tokenHeader() {
+        let header = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem(this.TOKEN_KEY));
+        return { headers: header };
+        
     }
 
     register(user: any) {
@@ -57,6 +63,7 @@ export class AuthService {
 }
  
 export interface User {
-    token: string;
+    token?: string;
     firstName: string;
+    lastName: string;
 }

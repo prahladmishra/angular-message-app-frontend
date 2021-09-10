@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from "rxjs";
+import { AuthService, User } from "./auth.service";
 
 @Injectable()
 export class WebService {
@@ -13,7 +14,7 @@ export class WebService {
 
   messages = this.messageSubject.asObservable() as Observable<Array<Message>>;
 
-  constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar, private auth: AuthService) {
     this.getMessages();
   }
   getMessages(user? : Message["owner"]) {
@@ -35,6 +36,14 @@ export class WebService {
     });    
   }
 
+  getUser() {
+    return this.http.get(this.BASE_URL + '/users/me', this.auth.tokenHeader);
+  }
+
+  saveUser(userData: User) {
+    return this.http.post(this.BASE_URL + '/users/me', userData, this.auth.tokenHeader);
+  }
+
   private handleError(error : string) {
     console.error();
     this._snackBar.open(error, "Close", {duration: 5000});
@@ -43,5 +52,5 @@ export class WebService {
 
 export interface Message {
   text: string;
-  owner: string;
+  owner?: string;
 }

@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { AuthService } from "./auth.service";
 import { WebService } from "./web.service";
 
 @Component({
@@ -6,11 +7,6 @@ import { WebService } from "./web.service";
   template: `
     <mat-card class="card">
         <mat-card-content>
-            <p> 
-            <mat-form-field appearance="standard">
-                <input [(ngModel)]="message.owner" matInput placeholder="Name">
-            </mat-form-field>
-            </p>
             <p>
             <mat-form-field appearance="standard">
                 <textarea [(ngModel)]="message.text" matInput placeholder="Message"></textarea>
@@ -26,11 +22,12 @@ import { WebService } from "./web.service";
 export class NewMessagesComponent {
 
 
-    constructor(private webService: WebService) { }
+    constructor(private webService: WebService, private auth: AuthService) { }
     message = {
-        text:"",
-        owner:""
+        text: "",
+        owner: this.auth.name !=null ? this.auth.name : "" 
     }
+    
     post() {
         this.webService.postMessage(this.message);
     }
